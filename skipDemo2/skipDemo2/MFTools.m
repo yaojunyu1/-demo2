@@ -41,7 +41,7 @@ static MFTools * globalNoticeSharedInstance = nil;
 
 - (void)mfRecordTrackEventWithTitle:(NSString *)title capters:(NSString *)capters pages:(NSString *)pages userId:(NSString *)userId token:(NSString *)token{
     //打点上报地址
-    NSString *urlStr = @"http://pay.myfcomic.com/api/check/userDot";
+    NSString *urlStr = @"你的网络请求地址";
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.requestSerializer = [AFHTTPRequestSerializer serializer];
     manager.responseSerializer = [AFHTTPResponseSerializer serializer];  //AFHTTPResponseSerializer serializer
@@ -69,7 +69,7 @@ static MFTools * globalNoticeSharedInstance = nil;
 
 - (void)mfUpdateClient{
     //获取服务器版本号地址
-    NSString *urlStr = @"http://pay.myfcomic.com/api/iosVersionUpdate";
+    NSString *urlStr = @"你的网络请求地址";
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.requestSerializer = [AFHTTPRequestSerializer serializer];
     manager.responseSerializer = [AFHTTPResponseSerializer serializer];  //AFHTTPResponseSerializer serializer
