@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #import "MFTools.h"
+#import "MFAuthLoginDMZJViewController.h"
 
 @interface ViewController ()
 
@@ -20,6 +21,21 @@
     // Do any additional setup after loading the view, typically from a nib.
     self.view.backgroundColor = [UIColor whiteColor];
     [self setupUI];
+    [self setupNavUI];
+}
+
+- (void)setupNavUI{
+    self.navigationItem.title = @"首页";
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
+    self.navigationController.navigationBar.translucent = NO;
+    UIBarButtonItem * backButtonItem = [[UIBarButtonItem alloc] init];
+    backButtonItem.title = nil;
+    self.navigationItem.backBarButtonItem = backButtonItem;
+    self.navigationController.navigationBar.tintColor = [UIColor blackColor];
+    [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(0, -60)
+                                                         forBarMetrics:UIBarMetricsDefault];
+    self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
+    self.navigationController.navigationBar.barTintColor = [UIColor lightGrayColor];
 }
 
 - (void)setupUI{
@@ -34,7 +50,7 @@
     [self.view addSubview:skipBtn];
     
     UIButton *firstBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [firstBtn setTitle:@"跳转第一页" forState:UIControlStateNormal];
+    [firstBtn setTitle:@"跳转详情页" forState:UIControlStateNormal];
     [firstBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
     firstBtn.titleLabel.font = [UIFont systemFontOfSize:16];
     firstBtn.frame = CGRectMake(20, 150, 100, 30);
@@ -43,15 +59,15 @@
     firstBtn.backgroundColor = [UIColor redColor];
     [self.view addSubview:firstBtn];
     
-    UIButton *secBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [secBtn setTitle:@"跳转第二页" forState:UIControlStateNormal];
-    [secBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-    secBtn.titleLabel.font = [UIFont systemFontOfSize:16];
-    secBtn.frame = CGRectMake(20, 200, 100, 30);
-    [secBtn addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
-    secBtn.tag = 103;
-    secBtn.backgroundColor = [UIColor redColor];
-    [self.view addSubview:secBtn];
+    UIButton *loginBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [loginBtn setTitle:@"三方app登录" forState:UIControlStateNormal];
+    [loginBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    loginBtn.titleLabel.font = [UIFont systemFontOfSize:16];
+    loginBtn.frame = CGRectMake(20, 200, 100, 30);
+    [loginBtn addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
+    loginBtn.tag = 103;
+    loginBtn.backgroundColor = [UIColor redColor];
+    [self.view addSubview:loginBtn];
     
     UIButton *ssoBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [ssoBtn setTitle:@"授权登录" forState:UIControlStateNormal];
@@ -82,7 +98,6 @@
     recordBtn.tag = 105;
     recordBtn.backgroundColor = [UIColor redColor];
     [self.view addSubview:recordBtn];
-    
 }
 
 - (void)recordBtnClick{
@@ -97,26 +112,33 @@
 
     NSURL *url;
     if(sender.tag == 101){
-        url = [NSURL URLWithString:@"ssodemo://"];
+        url = [NSURL URLWithString:@"yourapp://"];
+        if ([[UIApplication sharedApplication] canOpenURL:url]) {
+            [[UIApplication sharedApplication] openURL:url];
+        }
     }
     else if (sender.tag == 102){
-        url = [NSURL URLWithString:@"ssodemo://first"];
+        if ([[MFTools sharedInstance] mfOpenDMZJDetailsPage]) {
+            [[MFTools sharedInstance] mfOpenDMZJDetailsPage];
+        }
+        else{
+            NSLog(@"未安装应用");
+        }
     }
     else if (sender.tag == 103){
-        url = [NSURL URLWithString:@"ssodemo://second"];
+        MFAuthLoginDMZJViewController *vc = [MFAuthLoginDMZJViewController new];
+        [self.navigationController pushViewController:vc animated:YES];
     }
     else if (sender.tag == 104){
-        url = [NSURL URLWithString:@"ssodemo://login"];
+        if ([[MFTools sharedInstance] mfAuthorizedLoginDMZJ]) {
+            [[MFTools sharedInstance] mfAuthorizedLoginDMZJ];
+        }
+        else{
+            MFAuthLoginDMZJViewController *vc = [MFAuthLoginDMZJViewController new];
+            [self.navigationController pushViewController:vc animated:YES];
+        }
     }
-    
-    if ([[UIApplication sharedApplication] canOpenURL:url]) {
-        
-        [[UIApplication sharedApplication] openURL:url];
-        
-    }
-    else{
-        NSLog(@"未安装");
-    }
+
 }
 
 

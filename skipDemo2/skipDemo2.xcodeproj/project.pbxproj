@@ -24,6 +24,7 @@
 		59FBCA48215CD93900622063 /* AFURLRequestSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FBCA3F215CD93800622063 /* AFURLRequestSerialization.m */; };
 		59FBCA49215CD93900622063 /* AFNetworkReachabilityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FBCA41215CD93800622063 /* AFNetworkReachabilityManager.m */; };
 		59FBCA4A215CD93900622063 /* AFSecurityPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FBCA42215CD93800622063 /* AFSecurityPolicy.m */; };
+		59FBCA4D215F20E200622063 /* MFAuthLoginDMZJViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FBCA4C215F20E200622063 /* MFAuthLoginDMZJViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -57,6 +58,8 @@
 		59FBCA42215CD93800622063 /* AFSecurityPolicy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFSecurityPolicy.m; sourceTree = "<group>"; };
 		59FBCA43215CD93800622063 /* AFCompatibilityMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFCompatibilityMacros.h; sourceTree = "<group>"; };
 		59FBCA44215CD93800622063 /* AFHTTPSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPSessionManager.h; sourceTree = "<group>"; };
+		59FBCA4B215F20E200622063 /* MFAuthLoginDMZJViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MFAuthLoginDMZJViewController.h; sourceTree = "<group>"; };
+		59FBCA4C215F20E200622063 /* MFAuthLoginDMZJViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MFAuthLoginDMZJViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +106,8 @@
 				59FBC9EA215A1BE300622063 /* ViewController.m */,
 				59FBCA24215CA90B00622063 /* MFTools.h */,
 				59FBCA25215CA90B00622063 /* MFTools.m */,
+				59FBCA4B215F20E200622063 /* MFAuthLoginDMZJViewController.h */,
+				59FBCA4C215F20E200622063 /* MFAuthLoginDMZJViewController.m */,
 				59FBC9EF215A1BEB00622063 /* Assets.xcassets */,
 				59FBC9F4215A1BEB00622063 /* Info.plist */,
 				59FBC9F5215A1BEB00622063 /* main.m */,
@@ -220,6 +225,7 @@
 				59FBCA47215CD93800622063 /* AFURLSessionManager.m in Sources */,
 				59FBCA46215CD93800622063 /* AFHTTPSessionManager.m in Sources */,
 				59FBCA4A215CD93900622063 /* AFSecurityPolicy.m in Sources */,
+				59FBCA4D215F20E200622063 /* MFAuthLoginDMZJViewController.m in Sources */,
 				59FBC9E8215A1BE300622063 /* AppDelegate.m in Sources */,
 				59FBCA45215CD93800622063 /* AFURLResponseSerialization.m in Sources */,
 				59FBCA48215CD93900622063 /* AFURLRequestSerialization.m in Sources */,

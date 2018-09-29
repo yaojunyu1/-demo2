@@ -66,17 +66,13 @@
     //导航控制器
     UINavigationController *navi = (UINavigationController *)self.window.rootViewController;
     //避免连续跳转时页面叠加
-    [navi popToRootViewControllerAnimated:NO];
+//    [navi popToRootViewControllerAnimated:NO];
     //判断跳转不同页面
-    if ([urlStr hasPrefix:@"ssodemo://first"]) {
-        firstViewController *first = [[firstViewController alloc] init];
-        [navi pushViewController:first animated:YES];
-    }
-    else if ([urlStr hasPrefix:@"ssodemo://second"]){
+    if ([urlStr hasPrefix:@"yourapp://detail"]){
         secondViewController *sec = [[secondViewController alloc] init];;
         [navi pushViewController:sec animated:YES];
     }
-    else if ([urlStr hasPrefix:@"ssodemo://login"]){
+    else if ([urlStr hasPrefix:@"yourapp://login"]){
         loginViewController *login = [[loginViewController alloc] init];;
         [navi pushViewController:login animated:YES];
     }

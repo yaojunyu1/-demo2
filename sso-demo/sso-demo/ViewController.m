@@ -85,7 +85,7 @@
         [self.navigationController pushViewController:sec animated:YES];
     }
     else if (sender.tag == 101){
-        url = [NSURL URLWithString:@"skipdemo://"];
+        url = [NSURL URLWithString:@"myapp://"];
         
         if ([[UIApplication sharedApplication] canOpenURL:url]) {
             

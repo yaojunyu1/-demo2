@@ -10,6 +10,7 @@
 #import <UMAnalytics/MobClick.h>
 #import <UMCommon/UMCommon.h>
 #import "AFNetworking.h"
+#import "MFAuthLoginDMZJViewController.h"
 
 static MFTools * globalNoticeSharedInstance = nil;
 
@@ -30,18 +31,144 @@ static MFTools * globalNoticeSharedInstance = nil;
     return globalNoticeSharedInstance;
 }
 
+- (void)mfApplicationOpenUrl:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options{
+    NSString *urlStr = url.absoluteString;
+    
+    if ([urlStr containsString:@"myapp://login?authLogin=success"]) {
+        NSMutableDictionary *dict = [self getURLParameters:urlStr];
+        
+        NSString *message;
+        if ([[dict objectForKey:@"authLogin"] isEqualToString:@"success"]) {
+            message = @"授权成功";
+        }
+        else{
+            message = @"授权失败";
+        }
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示"
+                                                        message:message
+                                                       delegate:nil
+                                              cancelButtonTitle:@"确定"
+                                              otherButtonTitles:nil, nil];
+        [alert show];
+    }
+    else if([urlStr containsString:@"myapp://login?authLogin=falied"]){
+        //跳到动漫之家登陆页
+    }
+}
+
+//动漫之家授权登录跳转
+- (BOOL)mfAuthorizedLoginDMZJ{
+    NSURL *url = [NSURL URLWithString:@"yourapp://login"];
+    
+    if ([[UIApplication sharedApplication] canOpenURL:url]) {
+        [[UIApplication sharedApplication] openURL:url];
+    }
+    else{
+        return NO;
+    }
+    
+    return YES;
+}
+
+//动漫之家详情页跳转
+- (BOOL)mfOpenDMZJDetailsPage{
+    
+    NSURL *url = [NSURL URLWithString:@"yourapp://detail"];
+    
+    if ([[UIApplication sharedApplication] canOpenURL:url]) {
+        [[UIApplication sharedApplication] openURL:url];
+    }
+    else{
+        return NO;
+    }
+    
+    return YES;
+}
+
+//截取链接键值对转为字典
+-(NSMutableDictionary*)getURLParameters:(NSString *)url {
+    
+    NSRange range = [url rangeOfString:@"?"];
+    
+    if(range.location == NSNotFound) {
+        return nil;
+    }
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    
+    NSString *parametersString = [url substringFromIndex:range.location + 1];
+    
+    if([parametersString containsString:@"&"]) {
+        NSArray *urlComponents = [parametersString componentsSeparatedByString:@"&"];
+        
+        for(NSString *keyValuePair in urlComponents) {
+            
+            //生成key/value
+            NSArray *pairComponents = [keyValuePair componentsSeparatedByString:@"="];
+            NSString *key = [pairComponents.firstObject stringByRemovingPercentEncoding];
+            NSString*value = [pairComponents.lastObject stringByRemovingPercentEncoding];
+            
+            //key不能为nil
+            if(key == nil || value == nil) {
+                continue;
+            }
+            
+            id existValue = [params valueForKey:key];
+            if(existValue != nil) {
+                
+                //已存在的值，生成数组。
+                if([existValue isKindOfClass:[NSArray class]]) {
+                    
+                    //已存在的值生成数组
+                    NSMutableArray *items = [NSMutableArray arrayWithArray:existValue];
+                    [items addObject:value];
+                    [params setValue:items forKey:key];
+                }else{
+                    //非数组
+                    [params setValue:@[existValue,value] forKey:key];
+                }
+            }else{
+                //设置值
+                [params setValue:value forKey:key];
+            }
+        }
+    }else{
+        //单个参数生成key/value
+        NSArray *pairComponents = [parametersString componentsSeparatedByString:@"="];
+        if(pairComponents.count == 1) {
+            return nil;
+        }
+        
+        //分隔值
+        NSString *key = [pairComponents.firstObject stringByRemovingPercentEncoding];
+        NSString *value = [pairComponents.lastObject stringByRemovingPercentEncoding];
+        //key不能为nil
+        if(key == nil || value == nil) {
+            return nil;
+        }
+        
+        //设置值
+        [params setValue:value forKey:key];
+    }
+    
+    return params;
+}
+
+//友盟激活
 - (void)mfCAnalyticeApplicationDidFinishLaunchingWithOptions:(NSDictionary *)launchOptions{
     //友盟初始化
     [UMConfigure setLogEnabled:YES];
-    [UMConfigure initWithAppkey:@"trrr" channel:nil];
+    [UMConfigure initWithAppkey:@"5baeed08f1f55631ad0000a7" channel:nil];
     //友盟上报
     [MobClick setScenarioType:E_UM_NORMAL];
     [MobClick event:@""];
 }
 
+//打点上报
 - (void)mfRecordTrackEventWithTitle:(NSString *)title capters:(NSString *)capters pages:(NSString *)pages userId:(NSString *)userId token:(NSString *)token{
     //打点上报地址
-    NSString *urlStr = @"你的网址";
+    NSString *urlStr = @"你的请求地址";
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.requestSerializer = [AFHTTPRequestSerializer serializer];
     manager.responseSerializer = [AFHTTPResponseSerializer serializer];  //AFHTTPResponseSerializer serializer
@@ -67,9 +194,10 @@ static MFTools * globalNoticeSharedInstance = nil;
     }];
 }
 
+//版本更新
 - (void)mfUpdateClient{
     //获取服务器版本号地址
-    NSString *urlStr = @"你的网址";
+    NSString *urlStr = @"你的请求地址";
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.requestSerializer = [AFHTTPRequestSerializer serializer];
     manager.responseSerializer = [AFHTTPResponseSerializer serializer];  //AFHTTPResponseSerializer serializer

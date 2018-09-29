@@ -21,10 +21,10 @@
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]init];
     self.view.backgroundColor = [UIColor whiteColor];
-    self.navigationItem.title = @"授权登录";
+    self.navigationItem.title = @"三方授权登录";
     
     UIButton *skipBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [skipBtn setTitle:@"点击授权登录" forState:UIControlStateNormal];
+    [skipBtn setTitle:@"点击三方授权登录" forState:UIControlStateNormal];
     [skipBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
     skipBtn.titleLabel.font = [UIFont systemFontOfSize:16];
     skipBtn.frame = CGRectMake(20, 100, 100, 30);
@@ -35,15 +35,29 @@
 }
 
 - (void)buttonClick:(UIButton *)button{
-    NSURL *url = [NSURL URLWithString:@"skipdemo://"];
+    NSURL *url = [NSURL URLWithString:@"myapp://login?authLogin=success&uid=123456&token=123456qwerty"];
+    
+    if ([url.absoluteString containsString:@"authLogin=success"]) {
+        NSLog(@"授权成功");
+    }
+    else{
+        url = [NSURL URLWithString:@"myapp://loginfalied"];
+        
+    }
     
     if ([[UIApplication sharedApplication] canOpenURL:url]) {
         [[UIApplication sharedApplication] openURL:url];
     }
     else{
         //appstore
-        NSLog(@"未安装");
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示"
+                                                        message:@"打开失败"
+                                                       delegate:nil
+                                              cancelButtonTitle:@"确定"
+                                              otherButtonTitles:nil, nil];
+        [alert show];
     }
+    
 }
 
 /*
